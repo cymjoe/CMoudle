@@ -1,0 +1,6 @@
+rootProject.name='CMoudle'
+include ':app'
+include ':moudle-base'
+include ':lib-imgutils'
+include ':lib-http'
+include ':lib-router'

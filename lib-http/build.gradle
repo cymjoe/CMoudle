@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+def globalConfig = rootProject.ext.android
+
+android {
+    compileSdkVersion globalConfig.compileSdkVersion as int
+    buildToolsVersion globalConfig.buildToolsVersion as String
+
+    defaultConfig {
+        minSdkVersion globalConfig.minSdkVersion as int
+        targetSdkVersion globalConfig.targetSdkVersion as int
+        versionCode globalConfig.versionCode as int
+        versionName globalConfig.versionName as String
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    api "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.adapterrxjava2"
+    api "com.squareup.retrofit2:converter-gson:$rootProject.ext.gson"
+    api "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxandroid"
+    api "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjava"
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //AutoDispose解决RxJava内存泄漏
+   api 'com.uber.autodispose:autodispose:0.7.0'
+   api 'com.uber.autodispose:autodispose-android:0.7.0'
+   api 'com.uber.autodispose:autodispose-android-archcomponents:0.7.0'
+}
+repositories {
+    mavenCentral()
+}
